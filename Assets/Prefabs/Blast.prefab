@@ -11,6 +11,7 @@ GameObject:
   - 198: {fileID: 19893106}
   - 199: {fileID: 19932778}
   - 114: {fileID: 11425620}
+  - 135: {fileID: 13542890}
   m_Layer: 0
   m_Name: Blast
   m_TagString: Untagged
@@ -41,6 +42,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b9b346f1aa154e7db935eea4bc0e040, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!135 &13542890
+SphereCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 171392}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!198 &19893106
 ParticleSystem:
   m_ObjectHideFlags: 1
@@ -48,7 +61,7 @@ ParticleSystem:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 171392}
   serializedVersion: 2
-  lengthInSec: 0.5
+  lengthInSec: 0.3
   startDelay:
     scalar: 0
     maxCurve:
