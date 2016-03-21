@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour {
   public float shootDuration; // 弾丸の発射間隔
   public GameObject bulletPrefab; // 弾丸のプレファブ
   public GameObject ballPrefab; // ボールのプレファブ
+  public GameController controller; // ゲームコントローラー
 
 	// Use this for initialization
 	void Start () {
@@ -59,11 +60,14 @@ public class PlayerController : MonoBehaviour {
 
   void ShootBall ()
   {
-    Instantiate(
-      ballPrefab,
-      transform.position,
-      Quaternion.identity
-    );
+    // ボールが残っていれば消費して発射
+    if(controller.ConsumeBall()) {
+      Instantiate(
+        ballPrefab,
+        transform.position,
+        Quaternion.identity
+      );
+    }
   }
 
   IEnumerator Shoot ()

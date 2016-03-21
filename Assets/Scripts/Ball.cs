@@ -27,6 +27,9 @@ public class Ball : MonoBehaviour {
 
   void Blast ()
   {
+
+
+    // 爆発用のエフェクトを起動
     Instantiate(
       effectPrefab,
       transform.position,
