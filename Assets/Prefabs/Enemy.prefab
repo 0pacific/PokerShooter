@@ -58,6 +58,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 465282}
   - 212: {fileID: 21270034}
+  - 95: {fileID: 9513242}
   m_Layer: 0
   m_Name: Front
   m_TagString: Untagged
@@ -199,6 +200,23 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 3, y: 3, z: 0.1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!95 &9513242
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 146410}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 87cec5d72b40248cb8c898bdc0f07dab, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
 --- !u!114 &11461030
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -210,11 +228,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7c7e775016f84b739553bf520275445, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletPrefab: {fileID: 101586, guid: 3c13acdf1c7dc4f628cb0923cc053710, type: 2}
+  bulletPrefab:
+  - {fileID: 101586, guid: 3c13acdf1c7dc4f628cb0923cc053710, type: 2}
+  - {fileID: 101586, guid: 3c13acdf1c7dc4f628cb0923cc053710, type: 2}
+  - {fileID: 101586, guid: 3c13acdf1c7dc4f628cb0923cc053710, type: 2}
+  - {fileID: 101586, guid: 3c13acdf1c7dc4f628cb0923cc053710, type: 2}
   shootPoint:
   - {fileID: 401648}
   - {fileID: 459620}
   - {fileID: 415286}
+  frontAnimator: {fileID: 9513242}
 --- !u!212 &21270034
 SpriteRenderer:
   m_ObjectHideFlags: 1

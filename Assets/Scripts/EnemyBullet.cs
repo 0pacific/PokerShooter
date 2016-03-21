@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+// 敵の弾の挙動
 public class EnemyBullet : MonoBehaviour {
 	private int bulletSpeed = 10;
 	private float lifeTime = 5;

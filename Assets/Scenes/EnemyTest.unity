@@ -124,6 +124,10 @@ Prefab:
       propertyPath: m_RootOrder
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 11461030, guid: 438c70f0ead704299bc1a60c283610ed, type: 2}
+      propertyPath: bulletPrefab.Array.data[1]
+      value: 
+      objectReference: {fileID: 152240, guid: 5d6532433a52a42f5bb5a1852ab4afda, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 438c70f0ead704299bc1a60c283610ed, type: 2}
   m_IsPrefabParent: 0

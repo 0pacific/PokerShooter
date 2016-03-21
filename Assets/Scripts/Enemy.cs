@@ -1,8 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+// 各スートの順番
+public enum Suits {spade, heart, diamond, club};
+
 // 
 public class Enemy : MonoBehaviour {
+
 	private int enemyType = 0;			// マークの種類
 	private int enemyNo = 0;			// カードのナンバー
 
@@ -11,10 +15,14 @@ public class Enemy : MonoBehaviour {
 	private int speed = 5;				// 敵の移動スピード
 
 	[SerializeField]
-	private GameObject bulletPrefab;
+	private GameObject[] bulletPrefab;	// 弾のプレハブ(スペード、ハート、ダイヤ、クラブ)
+	private GameObject bullet;
 	[SerializeField]
 	private Transform[] shootPoint;		// 弾の発射位置	
 	private float shootDuration = 0.2f;	// 弾の発射間隔
+
+	[SerializeField]
+	private Animator frontAnimator;		// カード表面用のアニメーションコンポーネント
 
 	private bool isReverse = false;		// 裏返しの状態か否か
 	private bool isDying = false;		// 瀕死状態か否か
@@ -26,15 +34,17 @@ public class Enemy : MonoBehaviour {
 		enemyHealth = health;
 		transform.position = pos;
 
+		bullet = bulletPrefab [enemyType];
 		dyingLine = (int)(enemyHealth * 0.1f);
 	}
 
 	// テスト用の初期化
 	void Start () {
-		Initialize (0, 7, 100, new Vector3 (0, 0, 15));
+		Initialize (1, 7, 100, new Vector3 (0, 0, 15));
 		StartCoroutine ("Shoot");
 		Invoke ("RevTes", 1);
 		Invoke ("Dead", 5);
+		Damage (90);
 	}
 
 	void Update () {
@@ -45,7 +55,7 @@ public class Enemy : MonoBehaviour {
 	IEnumerator Shoot(){
 		while (true) {
 			for (int i = 0; i < shootPoint.Length; i++) {
-				GameObject.Instantiate (bulletPrefab, shootPoint[i].position, shootPoint[i].rotation);
+				GameObject.Instantiate (bullet, shootPoint[i].position, shootPoint[i].rotation);
 			}
 			yield return new WaitForSeconds (shootDuration);
 		}
@@ -83,6 +93,7 @@ public class Enemy : MonoBehaviour {
 			Dead ();
 		} else if (enemyHealth <= dyingLine) {
 			isDying = true;
+			frontAnimator.SetBool ("isDying", true);
 		}
 	}
 
