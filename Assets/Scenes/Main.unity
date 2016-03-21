@@ -176,6 +176,7 @@ MonoBehaviour:
   speed: 4
   shootDuration: 0.4
   bulletPrefab: {fileID: 152240, guid: 5d6532433a52a42f5bb5a1852ab4afda, type: 2}
+  ballPrefab: {fileID: 122774, guid: d8ecc06b91b2f4142801091afe58e286, type: 2}
 --- !u!1 &797011971
 GameObject:
   m_ObjectHideFlags: 0
@@ -318,7 +319,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1125202196}
   m_LocalRotation: {x: 0.27827474, y: -0.0000000019210546, z: -0.00000002375991, w: 0.96050155}
-  m_LocalPosition: {x: -0, y: 3.41, z: -9.04}
+  m_LocalPosition: {x: 0, y: 3.64, z: -9.4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}

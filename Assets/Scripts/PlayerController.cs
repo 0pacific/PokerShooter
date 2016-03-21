@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour {
   public float speed; // 移動速度
   public float shootDuration; // 弾丸の発射間隔
   public GameObject bulletPrefab; // 弾丸のプレファブ
+  public GameObject ballPrefab; // ボールのプレファブ
 
 	// Use this for initialization
 	void Start () {
@@ -58,7 +59,11 @@ public class PlayerController : MonoBehaviour {
 
   void ShootBall ()
   {
-    Debug.Log("ShootBall");
+    Instantiate(
+      ballPrefab,
+      transform.position,
+      Quaternion.identity
+    );
   }
 
   IEnumerator Shoot ()
@@ -67,7 +72,7 @@ public class PlayerController : MonoBehaviour {
     {
       // shootDuration毎に弾丸を発射
       yield return new WaitForSeconds(shootDuration);
-      GameObject bullet = (GameObject)Instantiate(
+      Instantiate(
         bulletPrefab,
         transform.position,
         Quaternion.identity
