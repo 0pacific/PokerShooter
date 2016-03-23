@@ -3,11 +3,11 @@ using System.Collections;
 
 public class GameController : MonoBehaviour {
 
-  const int MaxBallSize = 3;
+  const int MaximumEnergy = 100;
 
-  public Counter ballCounter;
+  public GaugeManager energyGauge;
 
-  int ballCount = MaxBallSize;
+  int energy = MaximumEnergy;
 
 	// Use this for initialization
 	void Start () {
@@ -17,16 +17,16 @@ public class GameController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-    ballCounter.UpdateIcons(ballCount);
+    energyGauge.UpdateGauge(MaximumEnergy,energy);
 	
 	}
 
   public bool ConsumeBall ()
   {
-    if(ballCount <= 0)
+    if(energy < 10)
       return false;
 
-    ballCount--;
+    energy -= 10;
 
     return true;
   }
