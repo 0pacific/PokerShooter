@@ -2,21 +2,19 @@
 using System.Collections;
 
 public class PlayerController : MonoBehaviour {
-  // 自機の動きなど
+  // 自機の動作を管理するクラス
 
   Vector3 moveVec = Vector3.zero; //自機の移動ベクトル
-  int hp;
 
   public float speed; // 移動速度
   public float shootDuration; // 弾丸の発射間隔
   public GameObject bulletPrefab; // 弾丸のプレファブ
   public GameObject ballPrefab; // ボールのプレファブ
   public GameController controller; // ゲームコントローラー
+  public PlayerManager manager;
 
 	// Use this for initialization
 	void Start () {
-
-    hp = GameController.maxPlayerHP;
 
     // コルーチンで通常弾を常に発射させる
     StartCoroutine(Shoot());
@@ -62,7 +60,7 @@ public class PlayerController : MonoBehaviour {
   void ShootBall ()
   {
     // ボールが残っていれば消費して発射
-    if(controller.ConsumeBall()) {
+    if(manager.ConsumeBall()) {
       Instantiate(
         ballPrefab,
         transform.position,
@@ -83,15 +81,5 @@ public class PlayerController : MonoBehaviour {
         Quaternion.identity
       );
     }
-  }
-
-  public void Damage (int damage)
-  {
-    // ダメージ処理
-    hp -= damage;
-    if(hp < 0)
-      controller.GameOver();
-    else if(hp > GameController.maxPlayerHP)
-      hp = GameController.maxPlayerHP;
   }
 }

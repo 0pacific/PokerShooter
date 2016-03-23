@@ -21,7 +21,7 @@ public class EnemyBullet : MonoBehaviour {
 
 	void OnTriggerEnter(Collider other){
 		if(other.tag == "Player"){
-			other.GetComponent<PlayerController> ().Damage (power);
+			other.GetComponent<PlayerManager> ().Damage (power);
 			Destroy (this.gameObject);
 		}
 	}

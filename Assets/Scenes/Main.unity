@@ -170,6 +170,7 @@ GameObject:
   - 65: {fileID: 581280997}
   - 23: {fileID: 581280996}
   - 114: {fileID: 581281000}
+  - 114: {fileID: 581281001}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -249,6 +250,21 @@ MonoBehaviour:
   shootDuration: 0.4
   bulletPrefab: {fileID: 152240, guid: 5d6532433a52a42f5bb5a1852ab4afda, type: 2}
   ballPrefab: {fileID: 122774, guid: d8ecc06b91b2f4142801091afe58e286, type: 2}
+  controller: {fileID: 961741158}
+  manager: {fileID: 581281001}
+--- !u!114 &581281001
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 581280995}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 866faa6bee8334b12a49b7cafe915b52, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  energyGauge: {fileID: 1864230548}
+  HPGauge: {fileID: 1272835232}
   controller: {fileID: 961741158}
 --- !u!1 &630288788
 GameObject:
@@ -478,7 +494,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2429c23013e6b4c5982cb457b76cd5cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  energyGauge: {fileID: 1864230548}
 --- !u!4 &961741159
 Transform:
   m_ObjectHideFlags: 0
