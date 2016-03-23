@@ -3,11 +3,19 @@ using System.Collections;
 
 public class GameController : MonoBehaviour {
 
-  const int MaxBallSize = 3;
+  // グローバル変数 //
 
-  public Counter ballCounter;
+  public static int bulletPower = 1; // プレイヤーの弾丸一発の威力
+  public static int ballPower = 10; // ボールの威力
+  public static float windowWidth = 4; // 画面幅（左右均等)
+  public static int maxPlayerHP = 100;
+  public static int maxEnergy = 100;
 
-  int ballCount = MaxBallSize;
+  //////////////////
+
+  public GaugeManager energyGauge;
+
+  int energy = maxEnergy;
 
 	// Use this for initialization
 	void Start () {
@@ -17,17 +25,22 @@ public class GameController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-    ballCounter.UpdateIcons(ballCount);
+    energyGauge.UpdateGauge(maxEnergy,energy);
 	
 	}
 
   public bool ConsumeBall ()
   {
-    if(ballCount <= 0)
+    if(energy < 10)
       return false;
 
-    ballCount--;
+    energy -= 10;
 
     return true;
+  }
+
+  public void GameOver ()
+  {
+    
   }
 }

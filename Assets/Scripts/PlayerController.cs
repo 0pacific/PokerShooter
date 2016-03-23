@@ -4,10 +4,9 @@ using System.Collections;
 public class PlayerController : MonoBehaviour {
   // 自機の動きなど
 
-
   Vector3 moveVec = Vector3.zero; //自機の移動ベクトル
+  int hp;
 
-  public float width; // 動ける幅（左右均一）
   public float speed; // 移動速度
   public float shootDuration; // 弾丸の発射間隔
   public GameObject bulletPrefab; // 弾丸のプレファブ
@@ -16,6 +15,8 @@ public class PlayerController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+
+    hp = GameController.maxPlayerHP;
 
     // コルーチンで通常弾を常に発射させる
     StartCoroutine(Shoot());
@@ -44,7 +45,7 @@ public class PlayerController : MonoBehaviour {
 
   void MoveRight ()
   {
-    if(transform.position.x > width)
+    if(transform.position.x > GameController.windowWidth)
       return;
     
     moveVec.x = speed * Time.deltaTime;
@@ -52,7 +53,7 @@ public class PlayerController : MonoBehaviour {
 
   void MoveLeft ()
   {
-    if(transform.position.x < -1 * width)
+    if(transform.position.x < -1 * GameController.windowWidth)
       return;
     
     moveVec.x = -1 * speed * Time.deltaTime;
@@ -82,6 +83,15 @@ public class PlayerController : MonoBehaviour {
         Quaternion.identity
       );
     }
+  }
 
+  public void Damage (int damage)
+  {
+    // ダメージ処理
+    hp -= damage;
+    if(hp < 0)
+      controller.GameOver();
+    else if(hp > GameController.maxPlayerHP)
+      hp = GameController.maxPlayerHP;
   }
 }
