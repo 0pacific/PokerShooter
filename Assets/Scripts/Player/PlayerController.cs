@@ -68,7 +68,7 @@ public class PlayerController : MonoBehaviour {
         transform.position,
         Quaternion.identity
       );
-      ball.transform.SetParent(balls.transform,false);
+      ball.transform.SetParent(balls.transform,true);
     }
   }
 
@@ -83,7 +83,7 @@ public class PlayerController : MonoBehaviour {
         transform.position,
         Quaternion.identity
       );
-      bullet.transform.SetParent(bullets.transform,false);
+      bullet.transform.SetParent(bullets.transform,true);
     }
   }
 }
