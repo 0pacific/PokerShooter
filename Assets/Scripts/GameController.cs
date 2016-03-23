@@ -13,10 +13,6 @@ public class GameController : MonoBehaviour {
 
   //////////////////
 
-  public GaugeManager energyGauge;
-
-  int energy = maxEnergy;
-
 	// Use this for initialization
 	void Start () {
 	
@@ -25,19 +21,8 @@ public class GameController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-    energyGauge.UpdateGauge(maxEnergy,energy);
 	
 	}
-
-  public bool ConsumeBall ()
-  {
-    if(energy < 10)
-      return false;
-
-    energy -= 10;
-
-    return true;
-  }
 
   public void GameOver ()
   {
