@@ -11,7 +11,18 @@ public class GameController : MonoBehaviour {
   public static float windowWidth = 4; // 画面幅（左右均等)
   public static int maxPlayerHP = 100;
   public static int maxEnergy = 100;
-  public static Dictionary<int,int> enemyHP = new Dictionary<int,int>();
+
+  public static Dictionary<int,int> enemyHP = new Dictionary<int,int>(); // 敵の数字とHPの対応
+  public enum rNum { // 敵出現ポイントにおける数字の制限
+    normal
+  };
+  public enum rMoving { // 敵出現ポイントにおける動きの制限
+    normal
+  };
+  public enum rAttack { // 敵出現ポイントにおける攻撃方法の制限
+    normal
+  };
+
 
   //////////////////
 
