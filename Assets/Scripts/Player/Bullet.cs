@@ -22,7 +22,14 @@ public class Bullet : MonoBehaviour {
     //弾丸の消去
     if(transform.position.z > vanishDistance)
       Destroy(this.gameObject);
-
-	
 	}
+
+  void OnTriggerEnter(Collider other)
+  {
+    if(other.tag == "Enemy")
+    {
+      other.GetComponent<Enemy>().Damage(GameController.bulletPower);
+      Destroy(this.gameObject);
+    }
+  }
 }
