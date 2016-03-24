@@ -12,6 +12,8 @@ public class PlayerController : MonoBehaviour {
   public GameObject ballPrefab; // ボールのプレファブ
   public GameController controller; // ゲームコントローラー
   public PlayerManager manager;
+  public GameObject balls; // ボールの管理オブジェクト
+  public GameObject bullets; // 弾の管理オブジェクト
 
 	// Use this for initialization
 	void Start () {
@@ -61,11 +63,12 @@ public class PlayerController : MonoBehaviour {
   {
     // ボールが残っていれば消費して発射
     if(manager.ConsumeBall()) {
-      Instantiate(
+      GameObject ball = (GameObject)Instantiate(
         ballPrefab,
         transform.position,
         Quaternion.identity
       );
+      ball.transform.SetParent(balls.transform,true);
     }
   }
 
@@ -75,11 +78,12 @@ public class PlayerController : MonoBehaviour {
     {
       // shootDuration毎に弾丸を発射
       yield return new WaitForSeconds(shootDuration);
-      Instantiate(
+      GameObject bullet = (GameObject)Instantiate(
         bulletPrefab,
         transform.position,
         Quaternion.identity
       );
+      bullet.transform.SetParent(bullets.transform,true);
     }
   }
 }

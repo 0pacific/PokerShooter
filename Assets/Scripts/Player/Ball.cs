@@ -27,8 +27,6 @@ public class Ball : MonoBehaviour {
 
   void Blast ()
   {
-
-
     // 爆発用のエフェクトを起動
     Instantiate(
       effectPrefab,
@@ -36,5 +34,15 @@ public class Ball : MonoBehaviour {
       Quaternion.identity
     );
     Destroy(this.gameObject);
+  }
+
+  void OnTriggerEnter (Collider other)
+  {
+    if(other.tag == "Enemy")
+    {
+      Blast();
+      other.GetComponent<Enemy>().Damage(GameController.ballPower);
+      Destroy(this.gameObject);
+    }
   }
 }
