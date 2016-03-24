@@ -190,6 +190,7 @@ MonoBehaviour:
   movings:
   - {fileID: 11441458}
   frontAnimator: {fileID: 9513242}
+  frontRenderer: {fileID: 21270034}
 --- !u!212 &21270034
 SpriteRenderer:
   m_ObjectHideFlags: 1

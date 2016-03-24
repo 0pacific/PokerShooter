@@ -8,8 +8,7 @@ public enum Suits {spade, heart, diamond, club};
 public class Enemy : MonoBehaviour {
 	private int suit = 0;			// マークの種類
 	private int num = 0;			// カードのナンバー
-
-	private int hp = 100;		// 敵のHP
+	private int hp = 100;			// 敵のHP
 
 	[SerializeField]
 	private GameObject bullet;		// 弾のプレハブ
@@ -19,9 +18,9 @@ public class Enemy : MonoBehaviour {
 
 	[SerializeField]
 	private Component[] movings;		// アタッチされてるEnemyMovingコンポーネント
-
 	[SerializeField]
-	private Animator frontAnimator;		// カード表面用のアニメーションコンポーネント
+	private Animator frontAnimator;		// カード表面用のAnimatorコンポーネント
+	public SpriteRenderer frontRenderer;// カード表面のSpriteRendererコンポーネント
 
 	private bool isReversed = false;		// 裏返しの状態か否か
 	private bool isCapturable = false;		// 捕獲可能状態か否か
@@ -30,6 +29,8 @@ public class Enemy : MonoBehaviour {
 	public void Initialize(int type, int no){
 		suit = type;
 		num = no;
+
+		hp = GameController.enemyHP[no];
 	}
 
 	// 敵の弾、発射位置の初期化
@@ -41,14 +42,12 @@ public class Enemy : MonoBehaviour {
 
 	// テスト用の初期化
 	void Start () {
-		Initialize (1, 7);
-		transform.parent = GameObject.Find ("Enemys").transform;
+		transform.parent = GameObject.Find ("Enemies").transform;
 		if (shootPoint.Length != 0) {	// 発射位置がなければ、コルーチンを呼び出さない。
 			StartCoroutine ("Shoot");
 		}
 		Invoke ("RevTes", 1);
-		Invoke ("Dead", 5);
-		Damage (90);
+		Invoke ("Dead", 7);
 	}
 
 	void Update () {
@@ -101,15 +100,16 @@ public class Enemy : MonoBehaviour {
 		if (isCapturable) {
 			//	カードの登録などの処理	//
 
+			Destroy (gameObject);
 			//////////////////////////
-			Dead ();
 		}
 		hp -= GameController.ballPower;
 	}
 
 	// 敵を倒した時の処理
 	private void Dead(){
-
+		EnemyManager em = GameObject.Find ("EnemyManager").GetComponent<EnemyManager> ();
+		em.ResetCardProb (suit, num);	// 再び同じカードが出現するようにする
 		Destroy (gameObject);
 	}
 
