@@ -90,17 +90,15 @@ public class EnemyManager : MonoBehaviour {
 	}
 	// 引数のカード周囲に重み付け
 	public void WeightCardProb(int suit, int num){
+		// 同じ番号周りに重み付け
 		for (int i = 0; i < 4; i++) {
-			if (suit == i) {
-				Weight (i, num - 2, 5);
-				Weight (i, num - 1, 10);
-				Weight (i, num + 1, 10);
-				Weight (i, num + 2, 5);
-			} else {
-				Weight (i, num - 1, 5);
-				Weight (i, num, 10);
-				Weight (i, num + 1, 5);
-			}
+			Weight (i, num - 1, 5);
+			Weight (i, num, 10);
+			Weight (i, num + 1, 5);	
+		}
+		// 同じスートに重み付け
+		for (int i = 1; i < 14; i++) {
+			Weight (suit, i, 5);
 		}
 	}
 	// 引数のカードに重み付け
