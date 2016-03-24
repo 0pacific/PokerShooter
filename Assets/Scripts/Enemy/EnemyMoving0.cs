@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class EnemyMoving0 : MonoBehaviour {
-	private int speed = 3;	// 移動の速さ
+	private int speed = 2;	// 移動の速さ
 
 	void Update () {
 		Move ();
