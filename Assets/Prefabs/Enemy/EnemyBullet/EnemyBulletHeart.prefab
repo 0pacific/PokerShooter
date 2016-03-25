@@ -59,7 +59,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   power: 5
   speed: 4
-  width: 5
+  width: 1
   period: 1
 --- !u!135 &13599754
 SphereCollider:
