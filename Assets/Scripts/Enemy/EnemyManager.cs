@@ -71,7 +71,7 @@ public class EnemyManager : MonoBehaviour {
 			p.parent = enemy.transform;
 			shootPoint [i] = p;
 		}
-		eneCom.SetShoot (bulletPrefs [type], shootPoint, 0.5f);
+		eneCom.SetShoot (bulletPrefs [type], shootPoint, 1f);
 		eneCom.SetMoving (moving);
 
 		return enemy;

@@ -17,12 +17,11 @@ public class EnemyBullet : MonoBehaviour {
 	// 弾の前方に速さspeedで移動
 	void Update () {
 		transform.position += transform.forward.normalized * speed * Time.deltaTime;
-/*		カメラの都合上、横方向の消滅が不自然なため保留
-  		if (Mathf.Abs (transform.position.x) > GameController.windowWidth + 1
-			||	transform.position.z > 20
-			||	transform.position.z < -15) {
+
+		/*	現在、カメラの都合上、横方向の制限を設けていない		*/
+		if ((transform.position.z > 20) || (transform.position.z < -10)) {
 			Destroy (gameObject);
-		}*/
+		}
 	}
 
 	// Playerと当たったらダメージを与える
