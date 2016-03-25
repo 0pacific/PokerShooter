@@ -100,7 +100,7 @@ MonoBehaviour:
   - {fileID: 101586, guid: 3c13acdf1c7dc4f628cb0923cc053710, type: 2}
   - {fileID: 140670, guid: f1ad51bece130478db53fcbb598bac23, type: 2}
   - {fileID: 185246, guid: e6818244bfaf3403190a95645c97d4f6, type: 2}
-  - {fileID: 113406, guid: a8f581c71e5e44d7cbd38ea6aba323d7, type: 2}
+  - {fileID: 123646, guid: 6d38c156b590445fc911e66532a09de7, type: 2}
   shootTrans:
   - {fileID: 464814, guid: cc7b80fadd45444a5a2888973198a574, type: 2}
   - {fileID: 472764, guid: cc7b80fadd45444a5a2888973198a574, type: 2}
