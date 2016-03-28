@@ -16,6 +16,9 @@ public class EnemyBulletClub : MonoBehaviour {
 	private float divisionTime = 1;		// 分裂するタイミング
 	private float divisionAngle = 45;	// 分裂弾の角度
 
+	[SerializeField]
+	private GameObject explosionPref;	// 爆発パーティクルのプレハブ
+
 	void Start () {
 		transform.parent = GameObject.Find ("EnemyBullets").transform;
 		Destroy (gameObject, lifeTime);			// lifeTime後には消す
@@ -45,6 +48,9 @@ public class EnemyBulletClub : MonoBehaviour {
 	void OnTriggerEnter(Collider other){
 		if(other.tag == "Player"){
 			other.GetComponent<PlayerManager> ().Damage (power);
+			GameObject exp = (GameObject)Instantiate (explosionPref, transform.position, Quaternion.identity);
+			float scale = power * 0.1f;
+			exp.transform.localScale = new Vector3 (scale, scale, scale);	// 威力によって爆発の大きさを変える
 			Destroy (this.gameObject);
 		}
 	}

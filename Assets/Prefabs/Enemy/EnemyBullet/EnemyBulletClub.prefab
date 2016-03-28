@@ -59,8 +59,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   power: 5
   speed: 7
+  dividedSpeed: 4
   divisionBullet: {fileID: 429800, guid: a8f581c71e5e44d7cbd38ea6aba323d7, type: 2}
   divisionTime: 1
+  explosionPref: {fileID: 146866, guid: c5b60be6e831347f6851a2a18a7815c6, type: 2}
 --- !u!135 &13534508
 SphereCollider:
   m_ObjectHideFlags: 1

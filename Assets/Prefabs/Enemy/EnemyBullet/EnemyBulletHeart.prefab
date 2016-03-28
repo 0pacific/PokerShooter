@@ -61,6 +61,7 @@ MonoBehaviour:
   forwardSpeed: 4
   width: 1
   period: 4
+  explosionPref: {fileID: 146866, guid: c5b60be6e831347f6851a2a18a7815c6, type: 2}
 --- !u!135 &13599754
 SphereCollider:
   m_ObjectHideFlags: 1

@@ -81,7 +81,7 @@ public class EnemyManager : MonoBehaviour {
 //	カードの確率制御関連	//
 //////////////////////////
 
-	// カードの確率変更(基本10)
+	// カードの確率変更(出現時に同じものが出ないようにする)
 	private void SetCardProb(int suit, int num, int prob){
 		int diff = prob - cardProbArr [suit, num];
 		probSum += diff;
@@ -104,26 +104,26 @@ public class EnemyManager : MonoBehaviour {
 	// 引数のカードに重み付け
 	private void Weight(int suit, int num, int w){
 		if (num > 0 && num < 14) {
-			if (cardProbArr [suit, num] != 0) {
-				probSum += w;
-				cardProbArr [suit, 0] += w;
-				cardProbArr [suit, num] += w;
+			if (cardProbArr [suit, num] != 0) {	// 0なら出現中か手札にあるので重み付けしない
+				probSum += w;					// カード全部の合計に加算
+				cardProbArr [suit, 0] += w;		// 引数カードのスートの合計に加算
+				cardProbArr [suit, num] += w;	// 引数カードそのものに加算
 			}
-		} else if (num <= 0) {
-			Weight (suit, 13 - num, w);
+		} else if (num <= 0) {					// KとAで繋ぐ
+			Weight (suit, 13 + num, w);
 		} else if (num >= 14) {
 			Weight (suit, num - 13, w);
 		}
 	}
 
-	// 引数のカードを初期化
+	// 引数のカード1枚を初期化(敵撃破や手札解放時など)
 	public void ResetCardProb(int suit, int num){
 		int diff = 10 - cardProbArr [suit, num];
 		probSum += diff;
 		cardProbArr [suit, 0] += diff;
 		cardProbArr [suit, num] = 10;
 	}
-	// 引数なしなら0以外のものは初期化
+	// 引数なしなら0以外のもの全てを初期化(手札完成時に出現中のもの以外)
 	public void ResetCardProb(){
 		probSum = 520;
 		for (int i = 0; i < 4; i++) {

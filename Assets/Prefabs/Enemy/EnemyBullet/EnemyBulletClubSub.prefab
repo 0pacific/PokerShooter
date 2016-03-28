@@ -59,6 +59,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   power: 5
   speed: 4
+  explosionPref: {fileID: 146866, guid: c5b60be6e831347f6851a2a18a7815c6, type: 2}
 --- !u!135 &13513126
 SphereCollider:
   m_ObjectHideFlags: 1

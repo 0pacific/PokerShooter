@@ -9,6 +9,9 @@ public class EnemyBullet : MonoBehaviour {
 	private int speed = 7;		// 直進方向の速さ
 	private float lifeTime = 5;	// 弾の寿命
 
+	[SerializeField]
+	private GameObject explosionPref;	// 爆発パーティクルのプレハブ
+
 	void Start () {
 		transform.parent = GameObject.Find ("EnemyBullets").transform;
 		Destroy (gameObject, lifeTime);			// lifeTime後には消す
@@ -28,6 +31,9 @@ public class EnemyBullet : MonoBehaviour {
 	void OnTriggerEnter(Collider other){
 		if(other.tag == "Player"){
 			other.GetComponent<PlayerManager> ().Damage (power);
+			GameObject exp = (GameObject)Instantiate (explosionPref, transform.position, Quaternion.identity);
+			float scale = power * 0.1f;
+			exp.transform.localScale = new Vector3 (scale, scale, scale);	// 威力によって爆発の大きさを変える
 			Destroy (this.gameObject);
 		}
 	}
