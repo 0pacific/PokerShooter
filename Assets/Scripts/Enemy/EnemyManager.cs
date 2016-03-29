@@ -3,7 +3,7 @@ using System.Collections;
 
 public class EnemyManager : MonoBehaviour {
 	[SerializeField]
-	private GameObject enemyPref;		// Enemyプレハブ
+	private GameObject enemyPrefab;		// Enemyプレハブ
 	[SerializeField]
 	private GameObject[] bulletPrefs;	// enemyBulletプレハブ（spade, heart, dia, club)
 	[SerializeField]
@@ -11,7 +11,6 @@ public class EnemyManager : MonoBehaviour {
 	[SerializeField]
 	private Sprite[] cardSprites;		// カードの画像
 
-//	private GameObject player;			// playerへの参照
 	[SerializeField]
 	private GameObject enemies;			// 敵管理オブジェクトEnemiesへの参照
 	[SerializeField]
@@ -27,7 +26,6 @@ public class EnemyManager : MonoBehaviour {
 
 	// テスト用のStart()
 	void Start () {
-//		player = GameObject.FindWithTag ("Player");
 		ResetCardProb ();
 
 		Spawn (new Vector3(0, 0, 10), true, 0);
@@ -66,15 +64,14 @@ public class EnemyManager : MonoBehaviour {
 			accumulation += cardProbArr [i, 0];
 		}
 
-		SetCardProb (type, no, 0);	// 同じカードが出現しないように確率を0に変更
+		SetCardProb (type, no, 0);								// 同じカードが出現しないように確率を0に変更
 
-		GameObject enemy = (GameObject)GameObject.Instantiate (enemyPref, spawnP, Quaternion.identity);
+		GameObject enemy = (GameObject)GameObject.Instantiate (enemyPrefab, spawnP, Quaternion.identity);
 
 		enemy.transform.SetParent (enemies.transform, true);	// 敵を全てEnemiesの子にまとめる
 		Enemy enemyCom = enemy.GetComponent<Enemy> ();
 		enemyCom.enemyManager = this.gameObject;				// EnemyManageの参照渡し(ResetCardProb()用)
 		enemyCom.enemyBullets = enemyBullets;					// 敵弾を全てEnemyBulletsの子にまとめるために参照渡し
-//		enemyCom.player = player;								// prayerの参照渡し(ResetNearest()用)
 
 		enemyCom.frontRenderer.sprite = cardSprites [type];		// 敵ごとに表の絵を変更
 
@@ -99,10 +96,10 @@ public class EnemyManager : MonoBehaviour {
 				p.SetParent (enemy.transform, true);
 				shootPoint [0] = p;
 			}
-			enemyCom.SetShoot (bulletPrefs [type], shootPoint, 1f);
+			enemyCom.SetShoot (bulletPrefs [type], shootPoint, 1.2f);
 		}
 
-		if (moving != 0) {	// 特定の動きをさせたい場合は動きを変える
+		if (moving != (int)GameController.rMoving.normal) {	// 特定の動きをさせたい場合は動きを変える
 			enemyCom.SetMoving (moving);
 		}
 

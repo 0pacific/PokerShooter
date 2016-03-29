@@ -11,12 +11,11 @@ public class Enemy : MonoBehaviour {
 	private int hp = 100;			// 敵のHP
 
 	[SerializeField]
-	private GameObject bullet;		// 弾のプレハブ
+	private GameObject bulletPrefab;	// 弾のプレハブ
 	[SerializeField]
 	private Transform[] shootPoint;		// 弾の発射位置	
-	private float shootDuration = 1f;	// 弾の発射間隔
+	private float shootDuration = 1.2f;	// 弾の発射間隔
 
-//	public GameObject player;		// playerへの参照	
 	public GameObject enemyManager;// EnemyManagerへの参照
 	public GameObject enemyBullets;	// 敵の弾の管理オブジェクトへの参照
 
@@ -28,21 +27,6 @@ public class Enemy : MonoBehaviour {
 
 	private bool isReversed = false;		// 裏返しの状態か否か
 	private bool isCapturable = false;		// 捕獲可能状態か否か
-
-	// 敵の初期化
-	public void Initialize(int type, int no){
-		suit = type;
-		num = no;
-
-		hp = GameController.enemyHP[no];	// ナンバーごとのHPへと変更	}
-  }
-
-	// 敵の弾、発射位置の初期化
-	public void SetShoot(GameObject bulletPref, Transform[] shootTrans, float duration){
-		bullet = bulletPref;
-		shootPoint = shootTrans;
-		shootDuration = duration;
-	}
 
 	// テスト用の初期化
 	void Start () {
@@ -62,21 +46,43 @@ public class Enemy : MonoBehaviour {
 		}
 	}
 
+	// 敵の初期化
+	public void Initialize(int type, int no){
+		suit = type;
+		num = no;
+
+		hp = GameController.enemyHP[no];	// ナンバーごとのHPへと変更
+	}
+
+	// 敵の弾、発射位置の初期化
+	public void SetShoot(GameObject bulletPref, Transform[] shootTrans, float duration){
+		bulletPrefab = bulletPref;
+		shootPoint = shootTrans;
+		shootDuration = duration;
+	}
+
 	// shootDurationごとに弾をshootPointから発射
 	IEnumerator Shoot(){
 		while (true) {
-			if (Mathf.Abs (transform.eulerAngles.y) < 90) { 
+			// 敵が前方(-90~90度)を向いている時だけ撃つ
+			float angleY = transform.eulerAngles.y;
+			bool isShootable = Mathf.Abs (angleY) < 90;
+			if (isShootable) { 
 				for (int i = 0; i < shootPoint.Length; i++) {
-					GameObject b = (GameObject)Instantiate (bullet, shootPoint [i].position, shootPoint [i].rotation);
+					GameObject b = (GameObject)Instantiate (bulletPrefab, shootPoint [i].position, shootPoint [i].rotation);
 					b.transform.SetParent (enemyBullets.transform, true);
 				}
+				yield return new WaitForSeconds (shootDuration);
+			} 
+			// 敵が前方を向いていない時はshootDuration/2だけ待つ(前向き直したときの遅延軽減)
+			else {
+				yield return new WaitForSeconds (shootDuration / 2);
 			}
-			yield return new WaitForSeconds (shootDuration);
 		}
 	}
 
 	private void RevTes(){
-		StartCoroutine (Reverse (1f));
+		StartCoroutine (Reverse (0.5f));
 	}
 
 	// reverseTime秒で裏返す
@@ -111,8 +117,6 @@ public class Enemy : MonoBehaviour {
 		if (isCapturable) {
 			//	カードの登録などの処理	//
 
-//			PlayerController pc = player.GetComponent<PlayerController> ();
-//			pc.ResetNearest ();
 			Destroy (gameObject);
 			//////////////////////////
 		}
@@ -121,8 +125,6 @@ public class Enemy : MonoBehaviour {
 
 	// 敵を倒した時の処理
 	private void Dead(){
-//		PlayerController pc = player.GetComponent<PlayerController> ();
-//		pc.ResetNearest ();
 		EnemyManager em = enemyManager.GetComponent<EnemyManager> ();
 		em.ResetCardProb (suit, num);	// 再び同じカードが出現するようにする
 		Destroy (gameObject);
