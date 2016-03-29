@@ -6,14 +6,13 @@ public class EnemyBullet : MonoBehaviour {
 	[SerializeField]
 	private int power = 5;		// 弾の威力
 	[SerializeField]
-	private int speed = 7;		// 直進方向の速さ
-	private float lifeTime = 5;	// 弾の寿命
+	private int speed = 5;		// 直進方向の速さ
+	private float lifeTime = 10;	// 弾の寿命
 
 	[SerializeField]
 	private GameObject explosionPref;	// 爆発パーティクルのプレハブ
 
 	void Start () {
-		transform.parent = GameObject.Find ("EnemyBullets").transform;
 		Destroy (gameObject, lifeTime);			// lifeTime後には消す
 	}
 	

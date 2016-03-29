@@ -186,6 +186,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bullet: {fileID: 101586, guid: 3c13acdf1c7dc4f628cb0923cc053710, type: 2}
   shootPoint: []
+  enemyBullets: {fileID: 114430, guid: 934c5bfb5099640569f3b26979b759e9, type: 2}
+  enemyManager: {fileID: 144876, guid: 934c5bfb5099640569f3b26979b759e9, type: 2}
   movings:
   - {fileID: 11441458}
   frontAnimator: {fileID: 9513242}

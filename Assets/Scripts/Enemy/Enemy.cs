@@ -16,6 +16,10 @@ public class Enemy : MonoBehaviour {
 	private Transform[] shootPoint;		// 弾の発射位置	
 	private float shootDuration = 1f;	// 弾の発射間隔
 
+	public GameObject enemyBullets;	// 敵の弾の管理オブジェクト
+	[SerializeField]
+	private GameObject enemyManager;	// EnemyManagerへの参照
+
 	[SerializeField]
 	private Component[] movings;		// アタッチされてるEnemyMovingコンポーネント
 	[SerializeField]
@@ -42,24 +46,30 @@ public class Enemy : MonoBehaviour {
 
 	// テスト用の初期化
 	void Start () {
-		transform.parent = GameObject.Find ("Enemies").transform;
 		if (shootPoint.Length != 0) {	// 発射位置がなければ、コルーチンを呼び出さない。
 			StartCoroutine ("Shoot");
 		}
+
 		Invoke ("RevTes", 1);
 		Invoke ("RevTes", 4);
-		Invoke ("Dead", 10);
+		Invoke ("Dead", 20);
 	}
 
 	void Update () {
-		
+		/*	現在、カメラの都合上、横方向の制限を設けていない		*/
+		if ((transform.position.z > 20) || (transform.position.z < -10)) {
+			Dead();
+		}
 	}
 
 	// shootDurationごとに弾をshootPointから発射
 	IEnumerator Shoot(){
 		while (true) {
-			for (int i = 0; i < shootPoint.Length; i++) {
-				GameObject.Instantiate (bullet, shootPoint[i].position, shootPoint[i].rotation);
+			if (Mathf.Abs (transform.eulerAngles.y) < 90) { 
+				for (int i = 0; i < shootPoint.Length; i++) {
+					GameObject b = (GameObject)Instantiate (bullet, shootPoint [i].position, shootPoint [i].rotation);
+					b.transform.SetParent (enemyBullets.transform, true);
+				}
 			}
 			yield return new WaitForSeconds (shootDuration);
 		}
@@ -109,7 +119,7 @@ public class Enemy : MonoBehaviour {
 
 	// 敵を倒した時の処理
 	private void Dead(){
-		EnemyManager em = GameObject.Find ("EnemyManager").GetComponent<EnemyManager> ();
+		EnemyManager em = enemyManager.GetComponent<EnemyManager> ();
 		em.ResetCardProb (suit, num);	// 再び同じカードが出現するようにする
 		Destroy (gameObject);
 	}

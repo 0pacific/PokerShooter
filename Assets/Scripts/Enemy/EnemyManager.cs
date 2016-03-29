@@ -11,6 +11,11 @@ public class EnemyManager : MonoBehaviour {
 	[SerializeField]
 	private Sprite[] cardSprites;		// カードの画像
 
+	[SerializeField]
+	private GameObject enemies;
+	[SerializeField]
+	private GameObject enemyBullets;
+
 	private int[,] cardProbArr = new int[4, 14]{
 		{130, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10},	// spadeの確率(0:合計,1~13:各カードの確率)
 		{130, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10},	// heartの確率(0:合計,1~13:各カードの確率)
@@ -37,33 +42,35 @@ public class EnemyManager : MonoBehaviour {
 	public GameObject Spawn(Vector3 spawnP, int[] shoots, int moving){
 		int type = 0;
 		int no = 1;
-		int card = Random.Range (0, probSum + 1);
-		if (card == 0) {
-			// joker
-		} else {
-			int accumulation = 0;
-			for (int i = 0; i < 4; i++) {
-				if (card <= accumulation + cardProbArr [i, 0]) {
-					// 各スートの累積からスートを求める
-					type = i;
-					for (int j = 1; j < 14; j++) {
-						// 累積を計算していき、ナンバーを求める
-						accumulation += cardProbArr [i, j];
-						if (card <= accumulation) {
-							no = j;
-							break;
-						}
+
+		int card = Random.Range (0, probSum);
+
+		int accumulation = 0;
+		for (int i = 0; i < 4; i++) {
+			if (card < accumulation + cardProbArr [i, 0]) {
+				// 各スートの累積からスートを求める
+				type = i;
+				for (int j = 1; j < 14; j++) {
+					// 累積を計算していき、ナンバーを求める
+					accumulation += cardProbArr [i, j];
+					if (card < accumulation) {
+						no = j;
+						break;
 					}
-					break;
 				}
-				accumulation += cardProbArr [i, 0];
+				break;
 			}
+			accumulation += cardProbArr [i, 0];
 		}
-		SetCardProb (type, no, 0);
+
+		SetCardProb (type, no, 0);	// 同じカードが出現しないように確率を0に変更
+
 		GameObject enemy = (GameObject)GameObject.Instantiate (enemyPref, spawnP, Quaternion.identity);
-		Enemy eneCom = enemy.GetComponent<Enemy> ();
-		eneCom.frontRenderer.sprite = cardSprites [type];
-		eneCom.Initialize (type, no);
+		enemy.transform.SetParent (enemies.transform, true);
+		Enemy enemyCom = enemy.GetComponent<Enemy> ();
+		enemyCom.enemyBullets = enemyBullets;
+		enemyCom.frontRenderer.sprite = cardSprites [type];
+		enemyCom.Initialize (type, no);
 		Transform[] shootPoint = new Transform[shoots.Length];
 		for (int i = 0; i < shoots.Length; i++) {
 			Transform p = (Transform)GameObject.Instantiate (shootTrans [shoots [i]]);
@@ -71,8 +78,8 @@ public class EnemyManager : MonoBehaviour {
 			p.parent = enemy.transform;
 			shootPoint [i] = p;
 		}
-		eneCom.SetShoot (bulletPrefs [type], shootPoint, 1f);
-		eneCom.SetMoving (moving);
+		enemyCom.SetShoot (bulletPrefs [type], shootPoint, 1f);
+		enemyCom.SetMoving (moving);
 
 		return enemy;
 	}

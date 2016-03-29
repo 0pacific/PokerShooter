@@ -113,6 +113,8 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 874f33be5417840bca76dce2987df86d, type: 3}
   - {fileID: 21300000, guid: ec515db668c0f40a0bcbd1aa9e639233, type: 3}
   - {fileID: 21300000, guid: f63c089b5845345f29d998576675af52, type: 3}
+  enemies: {fileID: 110792}
+  enemyBullets: {fileID: 114430}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

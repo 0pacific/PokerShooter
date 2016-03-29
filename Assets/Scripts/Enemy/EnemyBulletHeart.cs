@@ -5,16 +5,16 @@ public class EnemyBulletHeart : MonoBehaviour {
 	[SerializeField]
 	private int power = 5;		// 弾の威力
 	[SerializeField]
-	private int forwardSpeed = 4;	// 直進方向の速さ
+	private int forwardSpeed = 3;	// 直進方向の速さ
 	[SerializeField]
-	private float width = 1;	// 横方向移動の幅
+	private float width = 3;	// 横方向移動の幅
 	[SerializeField]
 	private float period = 4;	// 横方向移動の周期
 	private Vector3 forwardV;	// 直進方向の速度
 	private Vector3 sideV;		// 横方向の速度
 
 	private float timer = 0;	// 横方向移動制御用のタイマー
-	private float lifeTime = 5;	// 弾の寿命
+	private float lifeTime = 10;	// 弾の寿命
 /*	private float turningPoint;	// 横移動の速度反転のタイミング (ジグザグ用)
 	private bool isLoop = true;// 横移動の周期に入ったか否か(最初のperiod/4は特別) (ジグザグ用)	*/
 
@@ -22,7 +22,6 @@ public class EnemyBulletHeart : MonoBehaviour {
 	private GameObject explosionPref;	// 爆発パーティクルのプレハブ
 
 	void Start () {
-		transform.parent = GameObject.Find ("EnemyBullets").transform;
 		Destroy (gameObject, lifeTime);			// lifeTime後には消す
 
 		forwardV = transform.forward.normalized * forwardSpeed;
