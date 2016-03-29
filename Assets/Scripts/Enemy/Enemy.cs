@@ -34,7 +34,7 @@ public class Enemy : MonoBehaviour {
 		suit = type;
 		num = no;
 
-		hp = GameController.enemyHP[no];
+		hp = GameController.enemyHP[no];	// ナンバーごとのHPへと変更
 	}
 
 	// 敵の弾、発射位置の初期化

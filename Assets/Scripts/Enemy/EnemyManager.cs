@@ -76,11 +76,24 @@ public class EnemyManager : MonoBehaviour {
 		enemyCom.Initialize (type, no);
 
 		if (shootable) {	// 弾を撃つ敵は銃口を付ける
-			Transform[] shootPoint = new Transform[1];
-			Transform p = (Transform)Instantiate (shootTrans [0]);
-			p.position += enemy.transform.position;
-			p.SetParent (enemy.transform, true);
-			shootPoint [0] = p;
+			Transform[] shootPoint;
+			if (no > 9) {	// ナンバーが10以上ならば銃口2つ
+				shootPoint = new Transform[2];
+				Transform p = (Transform)Instantiate (shootTrans [1]);
+				p.position += enemy.transform.position;
+				p.SetParent (enemy.transform, true);
+				shootPoint [0] = p;
+				p = (Transform)Instantiate (shootTrans [2]);
+				p.position += enemy.transform.position;
+				p.SetParent (enemy.transform, true);
+				shootPoint [1] = p;
+			} else {		// ナンバーが9以下は銃口1つ
+				shootPoint = new Transform[1];
+				Transform p = (Transform)Instantiate (shootTrans [0]);
+				p.position += enemy.transform.position;
+				p.SetParent (enemy.transform, true);
+				shootPoint [0] = p;
+			}
 			enemyCom.SetShoot (bulletPrefs [type], shootPoint, 1f);
 		}
 
