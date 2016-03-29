@@ -8,12 +8,17 @@ public class PlayerController : MonoBehaviour {
 
   public float speed; // 移動速度
   public float shootDuration; // 弾丸の発射間隔
+  public float shootAngle; // 弾丸のホーミング可能幅
   public GameObject bulletPrefab; // 弾丸のプレファブ
   public GameObject ballPrefab; // ボールのプレファブ
   public GameController controller; // ゲームコントローラー
   public PlayerManager manager;
   public GameObject balls; // ボールの管理オブジェクト
   public GameObject bullets; // 弾の管理オブジェクト
+  public GameObject enemies;
+
+  Transform nearestEnemy = null;
+  Vector3 nearestPos;
 
 	// Use this for initialization
 	void Start () {
@@ -40,6 +45,23 @@ public class PlayerController : MonoBehaviour {
 
     // 移動実行
     transform.position = transform.position + moveVec;
+
+    // 最も近い敵の位置の取得
+    foreach(Transform enemy in enemies.transform)
+    {
+      if(Vector3.Angle(transform.forward, enemy.transform.position - transform.position) > shootAngle)
+      {
+        continue;
+      }
+      if(nearestEnemy == null ||
+        Vector3.Distance(nearestPos,transform.position) > Vector3.Distance(enemy.transform.position,transform.position))
+      {
+        Debug.Log("Update nearest : " + enemy);
+        nearestEnemy = enemy;
+        nearestPos = enemy.position;
+      }
+    }
+
   
 	}
 
@@ -83,7 +105,13 @@ public class PlayerController : MonoBehaviour {
         transform.position,
         Quaternion.identity
       );
+      bullet.GetComponent<Bullet>().SetTarget(nearestEnemy);
       bullet.transform.SetParent(bullets.transform,true);
     }
+  }
+
+  public void ResetNearest ()
+  {
+    nearestEnemy = null;
   }
 }
