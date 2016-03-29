@@ -45,23 +45,6 @@ public class PlayerController : MonoBehaviour {
 
     // 移動実行
     transform.position = transform.position + moveVec;
-
-    // 最も近い敵の位置の取得
-    foreach(Transform enemy in enemies.transform)
-    {
-      if(Vector3.Angle(transform.forward, enemy.transform.position - transform.position) > shootAngle)
-      {
-        continue;
-      }
-      if(nearestEnemy == null ||
-        Vector3.Distance(nearestPos,transform.position) > Vector3.Distance(enemy.transform.position,transform.position))
-      {
-        Debug.Log("Update nearest : " + enemy);
-        nearestEnemy = enemy;
-        nearestPos = enemy.position;
-      }
-    }
-
   
 	}
 
@@ -100,6 +83,21 @@ public class PlayerController : MonoBehaviour {
     {
       // shootDuration毎に弾丸を発射
       yield return new WaitForSeconds(shootDuration);
+      // 最も近い敵の位置の取得
+      foreach(Transform enemy in enemies.transform)
+      {
+        if(Vector3.Angle(transform.forward, enemy.transform.position - transform.position) > shootAngle)
+        {
+          continue;
+        }
+        if(nearestEnemy == null ||
+          Vector3.Distance(nearestPos,transform.position) > Vector3.Distance(enemy.transform.position,transform.position))
+        {
+          Debug.Log("Update nearest : " + enemy);
+          nearestEnemy = enemy;
+          nearestPos = enemy.position;
+        }
+      }
       GameObject bullet = (GameObject)Instantiate(
         bulletPrefab,
         transform.position,
@@ -107,6 +105,7 @@ public class PlayerController : MonoBehaviour {
       );
       bullet.GetComponent<Bullet>().SetTarget(nearestEnemy);
       bullet.transform.SetParent(bullets.transform,true);
+      ResetNearest();
     }
   }
 
