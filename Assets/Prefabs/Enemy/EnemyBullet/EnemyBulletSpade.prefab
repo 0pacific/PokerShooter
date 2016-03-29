@@ -58,7 +58,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   power: 5
-  speed: 10
+  speed: 5
+  explosionPref: {fileID: 146866, guid: c5b60be6e831347f6851a2a18a7815c6, type: 2}
 --- !u!135 &13549070
 SphereCollider:
   m_ObjectHideFlags: 1
@@ -69,7 +70,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.05
+  m_Radius: 0.1
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!212 &21273644
 SpriteRenderer:
