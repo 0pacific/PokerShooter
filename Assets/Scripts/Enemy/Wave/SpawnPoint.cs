@@ -12,6 +12,8 @@ public class SpawnPoint : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 
+    enemyManager = GameObject.FindWithTag("EnemyManager").GetComponent<EnemyManager>();
+
     GameObject enemy;
 
     if(restrictionNum == (int)GameController.rNum.normal)
