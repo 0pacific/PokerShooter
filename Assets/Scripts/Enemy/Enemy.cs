@@ -8,9 +8,7 @@ public enum Suits {spade, heart, diamond, club};
 public class Enemy : MonoBehaviour {
 	private int suit = 0;			// マークの種類
 	private int num = 0;			// カードのナンバー
-
-	private int health = 100;		// 敵のHP
-	private int captureLine = 10;	// 捕獲可能になる値(ボールの威力)
+	private int hp = 100;			// 敵のHP
 
 	[SerializeField]
 	private GameObject bullet;		// 弾のプレハブ
@@ -19,17 +17,20 @@ public class Enemy : MonoBehaviour {
 	private float shootDuration = 0.5f;	// 弾の発射間隔
 
 	[SerializeField]
-	private Animator frontAnimator;		// カード表面用のアニメーションコンポーネント
+	private Component[] movings;		// アタッチされてるEnemyMovingコンポーネント
+	[SerializeField]
+	private Animator frontAnimator;		// カード表面用のAnimatorコンポーネント
+	public SpriteRenderer frontRenderer;// カード表面のSpriteRendererコンポーネント
 
-	private bool isReverse = false;		// 裏返しの状態か否か
-	private bool isCapture = false;		// 捕獲可能状態か否か
+	private bool isReversed = false;		// 裏返しの状態か否か
+	private bool isCapturable = false;		// 捕獲可能状態か否か
 
 	// 敵の初期化
-	public void Initialize(int type, int no, int hp, Vector3 pos){
+	public void Initialize(int type, int no){
 		suit = type;
 		num = no;
-		health = hp;
-		transform.position = pos;
+
+		hp = GameController.enemyHP[no];
 	}
 
 	// 敵の弾、発射位置の初期化
@@ -41,13 +42,12 @@ public class Enemy : MonoBehaviour {
 
 	// テスト用の初期化
 	void Start () {
-		Initialize (1, 7, 100, new Vector3 (0, 0, 15));
+		transform.parent = GameObject.Find ("Enemies").transform;
 		if (shootPoint.Length != 0) {	// 発射位置がなければ、コルーチンを呼び出さない。
 			StartCoroutine ("Shoot");
 		}
 		Invoke ("RevTes", 1);
-		Invoke ("Dead", 5);
-		Damage (90);
+		Invoke ("Dead", 7);
 	}
 
 	void Update () {
@@ -76,8 +76,8 @@ public class Enemy : MonoBehaviour {
 			timer += Time.deltaTime;
 			yield return null;
 		}
-		isReverse = !isReverse;
-		if (isReverse) {
+		isReversed = !isReversed;
+		if (isReversed) {
 			transform.rotation = Quaternion.Euler (0, 180, 0);
 		} else {
 			transform.rotation = Quaternion.identity;
@@ -86,18 +86,60 @@ public class Enemy : MonoBehaviour {
 
 	// 弾とか当たったらダメージを与える
 	public void Damage(int damege){
-		health -= damege;
-		if (health <= 0) {
+		hp -= damege;
+		if (hp <= 0) {
 			Dead ();
-		} else if (health <= captureLine) {
-			isCapture = true;
+		} else if (hp <= GameController.ballPower) {
+			isCapturable = true;
 			frontAnimator.SetBool ("isDying", true);
 		}
 	}
 
-	// enemyを消します
-	private void Dead(){
+	// ボールが当たった場合に呼び出す
+	public void Capture(){
+		if (isCapturable) {
+			//	カードの登録などの処理	//
 
+			Destroy (gameObject);
+			//////////////////////////
+		}
+		hp -= GameController.ballPower;
+	}
+
+	// 敵を倒した時の処理
+	private void Dead(){
+		EnemyManager em = GameObject.Find ("EnemyManager").GetComponent<EnemyManager> ();
+		em.ResetCardProb (suit, num);	// 再び同じカードが出現するようにする
 		Destroy (gameObject);
+	}
+
+	// EnemyMoving系を切り替える
+	public void SetMoving(int pattern){
+		// 現在アタッチされてるものを削除
+		for (int i = 0; i < movings.Length; i++) {
+			if (movings [i] != null) {
+				Destroy (movings [i]);
+			}
+		}
+
+		switch (pattern) {
+		case 0:
+			System.Array.Resize(ref movings, 1);
+			movings [0] = (EnemyMoving0)gameObject.AddComponent<EnemyMoving0> ();
+			break;
+		case 1:
+			System.Array.Resize(ref movings, 1);
+			movings [0] = (EnemyMoving1)gameObject.AddComponent<EnemyMoving1> ();
+			break;
+		case 2:
+			System.Array.Resize(ref movings, 2);
+			movings [0] = (EnemyMoving0)gameObject.AddComponent<EnemyMoving0> ();
+			movings [1] = (EnemyMoving1)gameObject.AddComponent<EnemyMoving1> ();
+			break;
+		default :
+			System.Array.Resize(ref movings, 1);
+			movings [0] = (EnemyMoving0)gameObject.AddComponent<EnemyMoving0> ();
+			break;
+		}
 	}
 }

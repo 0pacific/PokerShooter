@@ -187,7 +187,10 @@ MonoBehaviour:
   bullet: {fileID: 101586, guid: 3c13acdf1c7dc4f628cb0923cc053710, type: 2}
   shootPoint:
   - {fileID: 401648}
+  movings:
+  - {fileID: 11441458}
   frontAnimator: {fileID: 9513242}
+  frontRenderer: {fileID: 21270034}
 --- !u!212 &21270034
 SpriteRenderer:
   m_ObjectHideFlags: 1
