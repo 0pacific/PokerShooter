@@ -23,6 +23,8 @@ public class SpawnPoint : MonoBehaviour {
         true,
         (int)GameController.rMoving.normal);
     }
+
+    Destroy(this.gameObject);
 	
 	}
 
