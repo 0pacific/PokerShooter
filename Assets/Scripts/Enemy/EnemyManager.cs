@@ -27,19 +27,19 @@ public class EnemyManager : MonoBehaviour {
 	// テスト用のStart()
 	void Start () {
 		ResetCardProb ();
-		Spawn (new Vector3(0, 0, 10), new int[]{0}, 0);
+		Spawn (new Vector3(0, 0, 10), true, 0);
 		StartCoroutine ("Closs");
 	}
 	// Spawn使用テスト用
 	IEnumerator Closs(){
 		yield return new WaitForSeconds (3.0f);
-		Spawn (new Vector3(-3, 0, 10), new int[]{ 1, 2 }, 2);
-		GameObject enemy = Spawn (new Vector3(3, 0, 10), new int[]{ 1, 2 }, 2);
+		Spawn (new Vector3(-3, 0, 10), true, 2);
+		GameObject enemy = Spawn (new Vector3(3, 0, 10), true, 2);
 		enemy.GetComponent<EnemyMoving1> ().SetSpeed (-1);
 	}
 
 	// Enemyを生成
-	public GameObject Spawn(Vector3 spawnP, int[] shoots, int moving){
+	public GameObject Spawn(Vector3 spawnP, bool shootable, int moving){
 		int type = 0;
 		int no = 1;
 
@@ -66,20 +66,27 @@ public class EnemyManager : MonoBehaviour {
 		SetCardProb (type, no, 0);	// 同じカードが出現しないように確率を0に変更
 
 		GameObject enemy = (GameObject)GameObject.Instantiate (enemyPref, spawnP, Quaternion.identity);
-		enemy.transform.SetParent (enemies.transform, true);
+
+		enemy.transform.SetParent (enemies.transform, true);	// 敵を全てEnemiesの子にまとめる
 		Enemy enemyCom = enemy.GetComponent<Enemy> ();
-		enemyCom.enemyBullets = enemyBullets;
-		enemyCom.frontRenderer.sprite = cardSprites [type];
+		enemyCom.enemyBullets = enemyBullets;					// 敵弾を全てEnemyBulletsの子にまとめるために参照渡し
+
+		enemyCom.frontRenderer.sprite = cardSprites [type];		// 敵ごとに表の絵を変更
+
 		enemyCom.Initialize (type, no);
-		Transform[] shootPoint = new Transform[shoots.Length];
-		for (int i = 0; i < shoots.Length; i++) {
-			Transform p = (Transform)GameObject.Instantiate (shootTrans [shoots [i]]);
+
+		if (shootable) {	// 弾を撃つ敵は銃口を付ける
+			Transform[] shootPoint = new Transform[1];
+			Transform p = (Transform)Instantiate (shootTrans [0]);
 			p.position += enemy.transform.position;
-			p.parent = enemy.transform;
-			shootPoint [i] = p;
+			p.SetParent (enemy.transform, true);
+			shootPoint [0] = p;
+			enemyCom.SetShoot (bulletPrefs [type], shootPoint, 1f);
 		}
-		enemyCom.SetShoot (bulletPrefs [type], shootPoint, 1f);
-		enemyCom.SetMoving (moving);
+
+		if (moving != 0) {	// 特定の動きをさせたい場合は動きを変える
+			enemyCom.SetMoving (moving);
+		}
 
 		return enemy;
 	}
