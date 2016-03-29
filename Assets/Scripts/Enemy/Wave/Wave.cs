@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Wave : MonoBehaviour {
 
-  float duration;
+  public float duration;
 
 	// Use this for initialization
 	void Start () {

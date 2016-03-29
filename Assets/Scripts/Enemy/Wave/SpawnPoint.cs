@@ -7,7 +7,7 @@ public class SpawnPoint : MonoBehaviour {
   public int restrictionNum;
   public int restrictionMoving;
   public int restrictionAttack;
-  public EnemyManager enemyManager;
+  EnemyManager enemyManager;
 
 	// Use this for initialization
 	void Start () {
@@ -16,10 +16,10 @@ public class SpawnPoint : MonoBehaviour {
 
     if(restrictionNum == (int)GameController.rNum.normal)
     {
-//      enemy = enemyManager.Spawn(
-//        transform.position,
-//        true,
-//        GameController.rMoving.normal);
+      enemy = enemyManager.Spawn(
+        transform.position,
+        true,
+        (int)GameController.rMoving.normal);
     }
 	
 	}

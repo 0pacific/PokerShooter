@@ -12,7 +12,22 @@ public class GameController : MonoBehaviour {
   public static int maxPlayerHP = 100;
   public static int maxEnergy = 100;
 
-  public static Dictionary<int,int> enemyHP = new Dictionary<int,int>(); // 敵の数字とHPの対応
+  public static Dictionary<int,int> enemyHP = new Dictionary<int,int>(){
+    {1,130},
+    {2,30},
+    {3,40},
+    {4,50},
+    {5,60},
+    {6,70},
+    {7,80},
+    {8,90},
+    {9,100},
+    {10,130},
+    {11,230},
+    {12,330},
+    {13,430},
+  }; // 敵の数字とHPの対応
+
   public enum rNum { // 敵出現ポイントにおける数字の制限
     normal
   };
@@ -25,22 +40,6 @@ public class GameController : MonoBehaviour {
 
 
   //////////////////
-
-  void Awake () {
-    enemyHP.Add(1, 130);
-    enemyHP.Add(2, 30);
-    enemyHP.Add(3, 40);
-    enemyHP.Add(4, 50);
-    enemyHP.Add(5, 60);
-    enemyHP.Add(6, 70);
-    enemyHP.Add(7, 80);
-    enemyHP.Add(8, 90);
-    enemyHP.Add(9, 100);
-    enemyHP.Add(10, 230);
-    enemyHP.Add(11, 330);
-    enemyHP.Add(12, 430);
-    enemyHP.Add(13, 530);
-	}
 	
 	// Update is called once per frame
 	void Update () {

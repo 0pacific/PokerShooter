@@ -34,6 +34,7 @@ public class Enemy : MonoBehaviour {
 		suit = type;
 		num = no;
 
+    Debug.Log(no);
 		hp = GameController.enemyHP[no];
 	}
 
