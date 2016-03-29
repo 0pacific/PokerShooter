@@ -16,9 +16,9 @@ public class Enemy : MonoBehaviour {
 	private Transform[] shootPoint;		// 弾の発射位置	
 	private float shootDuration = 1f;	// 弾の発射間隔
 
-	public GameObject enemyBullets;	// 敵の弾の管理オブジェクト
-	[SerializeField]
-	private GameObject enemyManager;	// EnemyManagerへの参照
+//	public GameObject player;		// playerへの参照	
+	public GameObject enemyManager;// EnemyManagerへの参照
+	public GameObject enemyBullets;	// 敵の弾の管理オブジェクトへの参照
 
 	[SerializeField]
 	private Component[] movings;		// アタッチされてるEnemyMovingコンポーネント
@@ -111,6 +111,8 @@ public class Enemy : MonoBehaviour {
 		if (isCapturable) {
 			//	カードの登録などの処理	//
 
+//			PlayerController pc = player.GetComponent<PlayerController> ();
+//			pc.ResetNearest ();
 			Destroy (gameObject);
 			//////////////////////////
 		}
@@ -119,6 +121,8 @@ public class Enemy : MonoBehaviour {
 
 	// 敵を倒した時の処理
 	private void Dead(){
+//		PlayerController pc = player.GetComponent<PlayerController> ();
+//		pc.ResetNearest ();
 		EnemyManager em = enemyManager.GetComponent<EnemyManager> ();
 		em.ResetCardProb (suit, num);	// 再び同じカードが出現するようにする
 		Destroy (gameObject);

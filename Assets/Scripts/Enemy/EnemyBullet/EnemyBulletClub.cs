@@ -6,14 +6,16 @@ public class EnemyBulletClub : MonoBehaviour {
 	private int power = 5;		// 弾の威力
 	[SerializeField]
 	private int speed = 5;		// 直進方向の速さ
-	[SerializeField]
-	private int dividedSpeed = 3;	// 分裂後の速さ
 	private float lifeTime = 10;	// 弾の寿命
 
 	[SerializeField]
 	private Transform divisionBullet;	// 分裂弾のプレハブ
 	[SerializeField]
-	private float divisionTime = 0.5f;		// 分裂するタイミング
+	private float divisionTime = 0.5f;	// 分裂するタイミング
+	[SerializeField]
+	private int divisionSpeed = 3;		// 分裂後の速さ
+	[SerializeField]
+	private float divisionScale = 0.5f;	// 分裂後の大きさ
 	private float divisionAngle = 30;	// 分裂弾の角度
 
 	[SerializeField]
@@ -42,7 +44,8 @@ public class EnemyBulletClub : MonoBehaviour {
 		trans = (Transform)Instantiate (divisionBullet, transform.position, transform.rotation);
 		trans.SetParent (transform.parent, true);
 		trans.Rotate (0, -divisionAngle, 0);
-		speed = dividedSpeed;
+		transform.localScale = new Vector3 (divisionScale, divisionScale, divisionScale);
+		speed = divisionSpeed;
 	}
 
 	// Playerと当たったらダメージを与える

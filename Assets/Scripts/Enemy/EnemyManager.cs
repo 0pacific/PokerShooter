@@ -11,10 +11,11 @@ public class EnemyManager : MonoBehaviour {
 	[SerializeField]
 	private Sprite[] cardSprites;		// カードの画像
 
+//	private GameObject player;			// playerへの参照
 	[SerializeField]
-	private GameObject enemies;
+	private GameObject enemies;			// 敵管理オブジェクトEnemiesへの参照
 	[SerializeField]
-	private GameObject enemyBullets;
+	private GameObject enemyBullets;	// 敵弾管理オブジェクトEnemyBulletへの参照
 
 	private int[,] cardProbArr = new int[4, 14]{
 		{130, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10},	// spadeの確率(0:合計,1~13:各カードの確率)
@@ -26,12 +27,14 @@ public class EnemyManager : MonoBehaviour {
 
 	// テスト用のStart()
 	void Start () {
+//		player = GameObject.FindWithTag ("Player");
 		ResetCardProb ();
+
 		Spawn (new Vector3(0, 0, 10), true, 0);
-		StartCoroutine ("Closs");
+		StartCoroutine ("Cross");
 	}
 	// Spawn使用テスト用
-	IEnumerator Closs(){
+	IEnumerator Cross(){
 		yield return new WaitForSeconds (3.0f);
 		Spawn (new Vector3(-3, 0, 10), true, 2);
 		GameObject enemy = Spawn (new Vector3(3, 0, 10), true, 2);
@@ -69,7 +72,9 @@ public class EnemyManager : MonoBehaviour {
 
 		enemy.transform.SetParent (enemies.transform, true);	// 敵を全てEnemiesの子にまとめる
 		Enemy enemyCom = enemy.GetComponent<Enemy> ();
+		enemyCom.enemyManager = this.gameObject;				// EnemyManageの参照渡し(ResetCardProb()用)
 		enemyCom.enemyBullets = enemyBullets;					// 敵弾を全てEnemyBulletsの子にまとめるために参照渡し
+//		enemyCom.player = player;								// prayerの参照渡し(ResetNearest()用)
 
 		enemyCom.frontRenderer.sprite = cardSprites [type];		// 敵ごとに表の絵を変更
 
