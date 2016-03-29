@@ -13,10 +13,10 @@ public class EnemyBulletHeart : MonoBehaviour {
 	private Vector3 forwardV;	// 直進方向の速度
 	private Vector3 sideV;		// 横方向の速度
 
-	private bool isLoop = true;// 横移動の周期に入ったか否か(最初のperiod/4は特別)
-	private float turningPoint;	// 横移動の速度反転のタイミング
 	private float timer = 0;	// 横方向移動制御用のタイマー
 	private float lifeTime = 5;	// 弾の寿命
+/*	private float turningPoint;	// 横移動の速度反転のタイミング (ジグザグ用)
+	private bool isLoop = true;// 横移動の周期に入ったか否か(最初のperiod/4は特別) (ジグザグ用)	*/
 
 	[SerializeField]
 	private GameObject explosionPref;	// 爆発パーティクルのプレハブ
@@ -26,8 +26,9 @@ public class EnemyBulletHeart : MonoBehaviour {
 		Destroy (gameObject, lifeTime);			// lifeTime後には消す
 
 		forwardV = transform.forward.normalized * forwardSpeed;
-		turningPoint = period / 4;
-		float sideSpeed = 4 * width / period;	// 横方向移動の速さ
+		float sideSpeed = width;
+/*		turningPoint = period / 4;				// (ジグザグ用)
+		float sideSpeed = 4 * width / period;	// 横方向移動の速さ(ジグザグ用)	*/
 		sideV = transform.right.normalized * sideSpeed;
 	}
 
@@ -36,6 +37,12 @@ public class EnemyBulletHeart : MonoBehaviour {
 		// 直進方向
 		transform.position += forwardV * Time.deltaTime;
 		// 横方向
+		// Cos使用の場合（ちょっと正確さに欠ける？）
+		float x = 2 * Mathf.PI * (timer / period);		// Cos()引数
+		transform.position += sideV * Mathf.Cos (x) * Time.deltaTime;
+		timer += Time.deltaTime;
+
+/*		ジグザグパターン
 		// period/2ごとに速度を反転(最初だけperiod/4)
 		if (timer + Time.deltaTime <= turningPoint) {				
 			transform.position += sideV * Time.deltaTime;
@@ -48,13 +55,9 @@ public class EnemyBulletHeart : MonoBehaviour {
 				turningPoint = period / 2;
 				isLoop = false;
 			}
-		}
+		}*/
 
-		/*		Cos使用の場合（ちょっと正確さに欠ける？）
-		transform.position += transform.right.normalized * width * Mathf.Cos (2 * timer / period * Mathf.PI) * Time.deltaTime;
-		timer += Time.deltaTime;*/
-
-		/*	現在、カメラの都合上、横方向の制限を設けていない		*/
+		// 現在、カメラの都合上、横方向の制限を設けていない	
 		if ((transform.position.z > 20) || (transform.position.z < -10)) {
 			Destroy (gameObject);
 		}
