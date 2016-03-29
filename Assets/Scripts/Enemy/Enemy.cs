@@ -34,9 +34,8 @@ public class Enemy : MonoBehaviour {
 		suit = type;
 		num = no;
 
-    Debug.Log(no);
-		hp = GameController.enemyHP[no];
-	}
+		hp = GameController.enemyHP[no];	// ナンバーごとのHPへと変更	}
+  }
 
 	// 敵の弾、発射位置の初期化
 	public void SetShoot(GameObject bulletPref, Transform[] shootTrans, float duration){
