@@ -28,7 +28,7 @@ public class EnemyManager : MonoBehaviour {
 	void Start () {
 		ResetCardProb ();
 
-		Spawn (new Vector3(0, 0, 10), true, 0);
+		Spawn (new Vector3(0, 0, 5), true, 11);
 		StartCoroutine ("Cross");
 	}
 	// Spawn使用テスト用

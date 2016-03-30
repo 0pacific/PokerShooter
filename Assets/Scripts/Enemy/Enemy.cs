@@ -66,7 +66,7 @@ public class Enemy : MonoBehaviour {
 		while (true) {
 			// 敵が前方(-90~90度)を向いている時だけ撃つ
 			float angleY = transform.eulerAngles.y;
-			bool isShootable = Mathf.Abs (angleY) < 90;
+			bool isShootable = Mathf.Abs (angleY) < 90 || (angleY > 270 && angleY < 360);
 			if (isShootable) { 
 				for (int i = 0; i < shootPoint.Length; i++) {
 					GameObject b = (GameObject)Instantiate (bulletPrefab, shootPoint [i].position, shootPoint [i].rotation);
@@ -153,6 +153,16 @@ public class Enemy : MonoBehaviour {
 			movings [0] = (EnemyMoving0)gameObject.AddComponent<EnemyMoving0> ();
 			movings [1] = (EnemyMoving1)gameObject.AddComponent<EnemyMoving1> ();
 			break;
+
+		case 10:
+			System.Array.Resize (ref movings, 1);
+			movings [0] = (EnemyMovingCircle)gameObject.AddComponent<EnemyMovingCircle> ();
+			break;
+		case 11:
+			System.Array.Resize (ref movings, 1);
+			movings [0] = (EnemyMovingBee)gameObject.AddComponent<EnemyMovingBee> ();
+			break;
+
 		default :
 			System.Array.Resize(ref movings, 1);
 			movings [0] = (EnemyMoving0)gameObject.AddComponent<EnemyMoving0> ();
