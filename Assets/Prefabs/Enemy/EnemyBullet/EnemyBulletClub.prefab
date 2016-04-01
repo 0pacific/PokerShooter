@@ -59,9 +59,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   power: 5
   speed: 5
-  dividedSpeed: 3
   divisionBullet: {fileID: 429800, guid: a8f581c71e5e44d7cbd38ea6aba323d7, type: 2}
   divisionTime: 0.5
+  divisionSpeed: 3
+  divisionScale: 0.5
   explosionPref: {fileID: 146866, guid: c5b60be6e831347f6851a2a18a7815c6, type: 2}
 --- !u!135 &13534508
 SphereCollider:
@@ -101,7 +102,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 4283ae0f1d315497882ea70ec2c1c8f4, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 79de41be04e2b45469d80199853f60ce, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
