@@ -1,48 +1,37 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
+using System;
 
 // 各スートの順番
 public enum Suits {spade, heart, diamond, club};
 
+public enum Numbers {A = 1, J = 11, Q = 12, K = 13};
+
 // 敵の基本的挙動（移動以外）
 public class Enemy : MonoBehaviour {
 	private int suit = 0;			// マークの種類
-	private int num = 0;			// カードのナンバー
+	private int num = 2;			// カードのナンバー
 	private int hp = 100;			// 敵のHP
 
 	[SerializeField]
-	private GameObject bullet;		// 弾のプレハブ
+	private GameObject bulletPrefab;	// 弾のプレハブ
 	[SerializeField]
 	private Transform[] shootPoint;		// 弾の発射位置	
-	private float shootDuration = 1f;	// 弾の発射間隔
+	private float shootDuration = 1.2f;	// 弾の発射間隔
 
-	public GameObject enemyBullets;	// 敵の弾の管理オブジェクト
-	[SerializeField]
-	private GameObject enemyManager;	// EnemyManagerへの参照
+	public GameObject enemyManager;// EnemyManagerへの参照
+	public GameObject enemyBullets;	// 敵の弾の管理オブジェクトへの参照
 
 	[SerializeField]
 	private Component[] movings;		// アタッチされてるEnemyMovingコンポーネント
 	[SerializeField]
 	private Animator frontAnimator;		// カード表面用のAnimatorコンポーネント
 	public SpriteRenderer frontRenderer;// カード表面のSpriteRendererコンポーネント
+	public Text numberText;
 
 	private bool isReversed = false;		// 裏返しの状態か否か
 	private bool isCapturable = false;		// 捕獲可能状態か否か
-
-	// 敵の初期化
-	public void Initialize(int type, int no){
-		suit = type;
-		num = no;
-
-		hp = GameController.enemyHP[no];	// ナンバーごとのHPへと変更	}
-  }
-
-	// 敵の弾、発射位置の初期化
-	public void SetShoot(GameObject bulletPref, Transform[] shootTrans, float duration){
-		bullet = bulletPref;
-		shootPoint = shootTrans;
-		shootDuration = duration;
-	}
 
 	// テスト用の初期化
 	void Start () {
@@ -62,21 +51,48 @@ public class Enemy : MonoBehaviour {
 		}
 	}
 
+	// 敵の初期化
+	public void Initialize(int type, int no){
+		suit = type;
+		num = no;
+
+		hp = GameController.enemyHP[no];	// ナンバーごとのHPへと変更
+		if (num > 1 && num < 11) {
+			numberText.text = num.ToString ();
+		} else {
+			numberText.text = Enum.GetName(typeof(Numbers), num);
+		}
+	}
+
+	// 敵の弾、発射位置の初期化
+	public void SetShoot(GameObject bulletPref, Transform[] shootTrans, float duration){
+		bulletPrefab = bulletPref;
+		shootPoint = shootTrans;
+		shootDuration = duration;
+	}
+
 	// shootDurationごとに弾をshootPointから発射
 	IEnumerator Shoot(){
 		while (true) {
-			if (Mathf.Abs (transform.eulerAngles.y) < 90) { 
+			// 敵が前方(-90~90度)を向いている時だけ撃つ
+			float angleY = transform.eulerAngles.y;
+			bool isShootable = angleY < 90 || angleY > 270;
+			if (isShootable) { 
 				for (int i = 0; i < shootPoint.Length; i++) {
-					GameObject b = (GameObject)Instantiate (bullet, shootPoint [i].position, shootPoint [i].rotation);
+					GameObject b = (GameObject)Instantiate (bulletPrefab, shootPoint [i].position, shootPoint [i].rotation);
 					b.transform.SetParent (enemyBullets.transform, true);
 				}
+				yield return new WaitForSeconds (shootDuration);
+			} 
+			// 敵が前方を向いていない時はshootDuration/2だけ待つ(前向き直したときの遅延軽減)
+			else {
+				yield return new WaitForSeconds (shootDuration / 2);
 			}
-			yield return new WaitForSeconds (shootDuration);
 		}
 	}
 
 	private void RevTes(){
-		StartCoroutine (Reverse (1f));
+		StartCoroutine (Reverse (0.5f));
 	}
 
 	// reverseTime秒で裏返す
@@ -147,6 +163,16 @@ public class Enemy : MonoBehaviour {
 			movings [0] = (EnemyMoving0)gameObject.AddComponent<EnemyMoving0> ();
 			movings [1] = (EnemyMoving1)gameObject.AddComponent<EnemyMoving1> ();
 			break;
+
+		case 10:
+			System.Array.Resize (ref movings, 1);
+			movings [0] = (EnemyMovingCircle)gameObject.AddComponent<EnemyMovingCircle> ();
+			break;
+		case 11:
+			System.Array.Resize (ref movings, 1);
+			movings [0] = (EnemyMovingBee)gameObject.AddComponent<EnemyMovingBee> ();
+			break;
+
 		default :
 			System.Array.Resize(ref movings, 1);
 			movings [0] = (EnemyMoving0)gameObject.AddComponent<EnemyMoving0> ();

@@ -3,7 +3,7 @@ using System.Collections;
 
 public class EnemyManager : MonoBehaviour {
 	[SerializeField]
-	private GameObject enemyPref;		// Enemyプレハブ
+	private GameObject enemyPrefab;		// Enemyプレハブ
 	[SerializeField]
 	private GameObject[] bulletPrefs;	// enemyBulletプレハブ（spade, heart, dia, club)
 	[SerializeField]
@@ -12,9 +12,9 @@ public class EnemyManager : MonoBehaviour {
 	private Sprite[] cardSprites;		// カードの画像
 
 	[SerializeField]
-	private GameObject enemies;
+	private GameObject enemies;			// 敵管理オブジェクトEnemiesへの参照
 	[SerializeField]
-	private GameObject enemyBullets;
+	private GameObject enemyBullets;	// 敵弾管理オブジェクトEnemyBulletへの参照
 
 	private int[,] cardProbArr = new int[4, 14]{
 		{130, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10},	// spadeの確率(0:合計,1~13:各カードの確率)
@@ -27,11 +27,12 @@ public class EnemyManager : MonoBehaviour {
 	// テスト用のStart()
 	void Start () {
 		ResetCardProb ();
-		Spawn (new Vector3(0, 0, 10), true, 0);
-		StartCoroutine ("Closs");
+
+		Spawn (new Vector3(0, 0, 5), true, 11);
+		StartCoroutine ("Cross");
 	}
 	// Spawn使用テスト用
-	IEnumerator Closs(){
+	IEnumerator Cross(){
 		yield return new WaitForSeconds (3.0f);
 		Spawn (new Vector3(-3, 0, 10), true, 2);
 		GameObject enemy = Spawn (new Vector3(3, 0, 10), true, 2);
@@ -63,12 +64,13 @@ public class EnemyManager : MonoBehaviour {
 			accumulation += cardProbArr [i, 0];
 		}
 
-		SetCardProb (type, no, 0);	// 同じカードが出現しないように確率を0に変更
+		SetCardProb (type, no, 0);								// 同じカードが出現しないように確率を0に変更
 
-		GameObject enemy = (GameObject)GameObject.Instantiate (enemyPref, spawnP, Quaternion.identity);
+		GameObject enemy = (GameObject)GameObject.Instantiate (enemyPrefab, spawnP, Quaternion.identity);
 
 		enemy.transform.SetParent (enemies.transform, true);	// 敵を全てEnemiesの子にまとめる
 		Enemy enemyCom = enemy.GetComponent<Enemy> ();
+		enemyCom.enemyManager = this.gameObject;				// EnemyManageの参照渡し(ResetCardProb()用)
 		enemyCom.enemyBullets = enemyBullets;					// 敵弾を全てEnemyBulletsの子にまとめるために参照渡し
 
 		enemyCom.frontRenderer.sprite = cardSprites [type];		// 敵ごとに表の絵を変更
@@ -94,10 +96,10 @@ public class EnemyManager : MonoBehaviour {
 				p.SetParent (enemy.transform, true);
 				shootPoint [0] = p;
 			}
-			enemyCom.SetShoot (bulletPrefs [type], shootPoint, 1f);
+			enemyCom.SetShoot (bulletPrefs [type], shootPoint, 1.2f);
 		}
 
-		if (moving != 0) {	// 特定の動きをさせたい場合は動きを変える
+		if (moving != (int)GameController.rMoving.normal) {	// 特定の動きをさせたい場合は動きを変える
 			enemyCom.SetMoving (moving);
 		}
 

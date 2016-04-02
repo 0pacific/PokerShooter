@@ -95,7 +95,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2e5e908aa4454df293f2b0e88d19938, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyPref: {fileID: 104272, guid: 438c70f0ead704299bc1a60c283610ed, type: 2}
+  enemyPrefab: {fileID: 104272, guid: 438c70f0ead704299bc1a60c283610ed, type: 2}
   bulletPrefs:
   - {fileID: 101586, guid: 3c13acdf1c7dc4f628cb0923cc053710, type: 2}
   - {fileID: 140670, guid: f1ad51bece130478db53fcbb598bac23, type: 2}
