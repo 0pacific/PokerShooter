@@ -1,13 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
+using System;
 
 // 各スートの順番
 public enum Suits {spade, heart, diamond, club};
 
+public enum Numbers {A = 1, J = 11, Q = 12, K = 13};
+
 // 敵の基本的挙動（移動以外）
 public class Enemy : MonoBehaviour {
 	private int suit = 0;			// マークの種類
-	private int num = 0;			// カードのナンバー
+	private int num = 2;			// カードのナンバー
 	private int hp = 100;			// 敵のHP
 
 	[SerializeField]
@@ -24,6 +28,7 @@ public class Enemy : MonoBehaviour {
 	[SerializeField]
 	private Animator frontAnimator;		// カード表面用のAnimatorコンポーネント
 	public SpriteRenderer frontRenderer;// カード表面のSpriteRendererコンポーネント
+	public Text numberText;
 
 	private bool isReversed = false;		// 裏返しの状態か否か
 	private bool isCapturable = false;		// 捕獲可能状態か否か
@@ -52,6 +57,11 @@ public class Enemy : MonoBehaviour {
 		num = no;
 
 		hp = GameController.enemyHP[no];	// ナンバーごとのHPへと変更
+		if (num > 1 && num < 11) {
+			numberText.text = num.ToString ();
+		} else {
+			numberText.text = Enum.GetName(typeof(Numbers), num);
+		}
 	}
 
 	// 敵の弾、発射位置の初期化
@@ -66,7 +76,7 @@ public class Enemy : MonoBehaviour {
 		while (true) {
 			// 敵が前方(-90~90度)を向いている時だけ撃つ
 			float angleY = transform.eulerAngles.y;
-			bool isShootable = Mathf.Abs (angleY) < 90 || (angleY > 270 && angleY < 360);
+			bool isShootable = angleY < 90 || angleY > 270;
 			if (isShootable) { 
 				for (int i = 0; i < shootPoint.Length; i++) {
 					GameObject b = (GameObject)Instantiate (bulletPrefab, shootPoint [i].position, shootPoint [i].rotation);
