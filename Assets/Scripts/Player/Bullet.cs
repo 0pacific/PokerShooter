@@ -42,8 +42,15 @@ public class Bullet : MonoBehaviour {
   {
     if(other.tag == "Enemy")
     {
-      other.GetComponent<Enemy>().Damage(GameController.bulletPower);
-      Destroy(this.gameObject);
+      if(other.transform.eulerAngles.y < 90 || other.transform.eulerAngles.y > 270)
+      {
+        other.GetComponent<Enemy>().Damage(GameController.bulletPower);
+        Destroy(this.gameObject);
+      }
+      else
+      {
+        
+      }
     }
   }
 }

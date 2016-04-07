@@ -10,7 +10,8 @@ public class GameController : MonoBehaviour {
   public static int ballPower = 10; // ボールの威力
   public static float windowWidth = 4; // 画面幅（左右均等)
   public static int maxPlayerHP = 100;
-  public static int maxEnergy = 100;
+  public static int maxEnergy = 100; // ボール使用の最大値
+  public static int energyConsumption = 10;
 
   public static Dictionary<int,int> enemyHP = new Dictionary<int,int>(){
     {1,130},

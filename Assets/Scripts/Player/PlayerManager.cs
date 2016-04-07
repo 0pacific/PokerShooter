@@ -26,10 +26,10 @@ public class PlayerManager : MonoBehaviour {
 
   public bool ConsumeBall ()
   {
-    if(energy < 10)
+    if(energy < GameController.energyConsumption)
       return false;
 
-    energy -= 10;
+    energy -= GameController.energyConsumption;
 
     return true;
   }
