@@ -35,7 +35,6 @@ public class WaveController : MonoBehaviour {
   void Update () {
 
     left -= Time.deltaTime;
-    Debug.Log(left);
     if(left <= 0.0f)
     {
       Destroy(currentWave.gameObject);

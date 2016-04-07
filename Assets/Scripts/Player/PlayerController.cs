@@ -16,6 +16,8 @@ public class PlayerController : MonoBehaviour {
   public GameObject balls; // ボールの管理オブジェクト
   public GameObject bullets; // 弾の管理オブジェクト
   public GameObject enemies;
+  public AudioSource shoot; // 弾の発射音
+  // public AudioSource ballShoot; // ボールの発射音
 
   Transform nearestEnemy = null;
   Vector3 nearestPos;
@@ -105,6 +107,7 @@ public class PlayerController : MonoBehaviour {
       );
       bullet.GetComponent<Bullet>().SetTarget(nearestEnemy);
       bullet.transform.SetParent(bullets.transform,true);
+      shoot.PlayOneShot(shoot.clip);
       ResetNearest();
     }
   }
