@@ -87,6 +87,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 8
   vanishDistance: 17
+  hitEffect: {fileID: 19890466, guid: 7bc46214350bb48f28d9d23a650c3ae0, type: 2}
+  nodamageEffect: {fileID: 19859824, guid: f033673c1ed974cb5a3bcba4b7fbdf51, type: 2}
 --- !u!135 &13593456
 SphereCollider:
   m_ObjectHideFlags: 1

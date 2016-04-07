@@ -6,6 +6,8 @@ public class Bullet : MonoBehaviour {
 
   public float speed; //弾丸の速度
   public float vanishDistance; //弾丸が消滅する距離(Z軸方向)
+  public GameObject hitEffect;
+  public GameObject nodamageEffect;
 
   Transform target = null; // ホーミング対象
 
@@ -45,11 +47,18 @@ public class Bullet : MonoBehaviour {
       if(other.transform.eulerAngles.y < 90 || other.transform.eulerAngles.y > 270)
       {
         other.GetComponent<Enemy>().Damage(GameController.bulletPower);
+        Instantiate(
+          hitEffect,
+          transform.position,
+          Quaternion.identity);
         Destroy(this.gameObject);
       }
       else
       {
-        
+        Instantiate(
+        nodamageEffect,
+        transform.position,
+        Quaternion.identity);
       }
     }
   }

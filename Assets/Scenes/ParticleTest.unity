@@ -124,10 +124,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: 19859824, guid: f033673c1ed974cb5a3bcba4b7fbdf51, type: 2}
-      propertyPath: SubModule.subEmitterBirth
-      value: 
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f033673c1ed974cb5a3bcba4b7fbdf51, type: 2}
   m_IsPrefabParent: 0
